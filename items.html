@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SPB Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+    
+    #paypal-button-container-wrapper {
+      margin-top: 130px;
+    }
+
+    #paypal-button-container {
+      margin-top: 30px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<div align="center">
+  <h2>Create PayPal Smart Payment Button</h2>
+</div>
+
+  <div class="col-md-5">
+    
+    <form action="/action_page.php">
+      <div class="form-group">
+        <label for="clientId">Enter Client Id:</label>
+        <input class="form-control" id="clientId" placeholder="Enter Client Id:" name="clientId">
+      </div>
+
+      <h4>Button info</h4>
+
+      <div class="form-group col-sm-8">
+        <label for="description">Description:</label>
+        <input class="form-control" id="description" placeholder="Enter the product/service description" name="description">
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="currency">Currency:</label>
+        <select class="form-control" id="currency" name="currency">
+          <option value="USD" selected="">USD</option>
+          <option value="AUD">AUD</option>
+          <option value="BRL">BRL</option>
+          <option value="CAD">CAD</option>
+          <option value="CZK">CZK</option>
+          <option value="DKK">DKK</option>
+          <option value="EUR">EUR</option>
+          <option value="HDK">HDK</option>
+          <option value="HUF">HUF</option>
+          <option value="INR">INR</option>
+          <option value="ILS">ILS</option>
+          <option value="JPY">JPY</option>
+          <option value="MYR">MYR</option>
+          <option value="MXN">MXN</option>
+          <option value="TWD">TWD</option>
+          <option value="NZD">NZD</option>
+          <option value="NOK">NOK</option>
+          <option value="PHP">PHP</option>
+          <option value="PLN">PLN</option>
+          <option value="GBP">GBP</option>
+          <option value="RUB">RUB</option>
+          <option value="SGD">SGD</option>
+          <option value="SEK">SEK</option>
+          <option value="CHF">CHF</option>
+          <option value="THB">THB</option>
+        </select>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <label for="shippingCost">Shipping cost:</label>
+        <input class="form-control" id="shippingCost" placeholder="$" name="shippingCost">
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="taxRate">Tax rate:</label>
+        <input class="form-control" id="taxRate" placeholder="%" name="taxRate">
+      </div>
+
+      <h4>Items</h4>
+
+      <div class="row">
+
+        <div class="col-md-8">
+          <div class="form-group col-md-6"><span>Menu option name</span></div>
+          <div class="form-group col-md-6"><span>Price</span></div>
+        </div>
+
+        <div id="items-section">
+
+          <div class="col-md-8">
+            <div class="form-group col-md-6 items-name"><input type="text" value="Option 1" id="items-name-1"></div>
+            <div class="form-group col-md-6 items-price"><input type="text" value="" id="items-price-1"></div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="form-group col-md-6 items-name"><input type="text" value="Option 2" id="items-name-2"></div>
+            <div class="form-group col-md-6 items-price"><input type="text" value="" id="items-price-2"></div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="form-group col-md-6 items-name"><input type="text" value="Option 3" id="items-name-3"></div>
+            <div class="form-group col-md-6 items-price"><input type="text" value="" id="items-price-3"></div>
+          </div>
+          
+        </div>
+
+        <div class="col-md-8">
+          <div class="form-group col-md-12"><a href="javascript:;" id="add-another-option">Add another option</a></div>
+        </div>
+
+      </div>
+        
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="itemsQuantity">
+        <label class="form-check-label" for="itemsQuantity">Check to include quantity selector</label>
+      </div>
+
+      <div class="hidden" id="quantity-section">
+        <input type="text" value="3" id="quantity">
+      </div>
+
+      <h4>Button Style</h4>
+
+      <div class="form-group col-sm-4">
+        <label for="buttonColor">Color:</label>
+        <select class="form-control" id="buttonColor" name="buttonColor">
+          <option value="gold" selected="">Gold</option>
+          <option value="blue">Blue</option>
+          <option value="silver">Silver</option>
+          <option value="black">Black</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="buttonShape">Shape:</label>
+        <select class="form-control" id="buttonShape" name="buttonShape">
+          <option value="rect" selected="">Rectangle</option>
+          <option value="pill">Pill</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="buttonLabel">Label:</label>
+        <select class="form-control" id="buttonLabel" name="buttonLabel">
+          <option value="paypal" selected="">PayPal</option>
+          <option value="pay">Pay</option>
+          <option value="buynow">Buy Now</option>
+          <option value="checkout">Checkout</option>
+        </select>
+      </div>
+ 
+    </form>
+
+
+    <div id="paypal-button-container-wrapper">
+      <hr>
+      <h3 align="center">Preview</h3>
+      <hr>  
+
+      <select id="item-options">
+        <option value="Option 1" data-price="">Option 1</option>
+        <option value="Option 2" data-price="">Option 2</option>
+        <option value="Option 3" data-price="">Option 3</option>
+      </select>
+
+      <select class="hidden" id="quantity-options">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+
+      <div id="paypal-button-container"></div>
+    </div>
+
+  </div>
+
+  <div class="col-md-7">
+    <div class="col-md-offset-8 col-md-4">
+        <a href="javascript:;" id="copyToClipboard" class="btn btn-primary btn-block" style="margin-bottom: 10px; display: block;">Copy to Cliboard</a>
+    </div>
+    <pre class="col-md-12" id="codePreview">
+    </pre>
+  </div>
+
+  <script type="text/javascript" src="items.js"></script>
+
+</body>
+</html>
+
+
+  

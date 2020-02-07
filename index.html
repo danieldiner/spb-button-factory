@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SPB Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div align="center">
+  <h2>PayPal Smart Payment Button Generator</h2>
+</div>
+<div align="center" style="margin-top: 60px">
+  <h4>Select the button you would like to create:</h4>
+</div>
+
+
+<div class="col-md-4" style="margin-top: 60px">
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        Open Button
+      </div>
+      <div class="panel-body">
+        <p>Costumer indicates an amount and a payment reference.</p>
+        <br>
+        <div style="text-align: center"> Enter payment reference: <input type="text" id="desc" placeholder="Reference" value="" ></div> 
+    <br>
+    <div style="text-align: center">Enter amount to pay: <input type="text" id="amount" placeholder="Amount" value="" > USD</div> 
+
+    <br><br>
+
+    <div style="text-align: center" id="paypal-button-container-open"></div>
+        <a href="./open.html" class="btn btn-primary">Select</a>
+      </div>
+  </div>
+</div>
+
+<div class="col-md-4" style="margin-top: 60px">
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        Fixed Button
+      </div>
+      <div class="panel-body">
+        <p>Button with a unique and static amount and payment description</p>
+        <br><br>
+        <p>Amount to pay: $10</p>
+        <div id="paypal-button-container-fixed"></div>
+        <br><br>
+        <a href="./fixed.html" class="btn btn-primary">Select</a>
+      </div>
+  </div>
+</div>
+
+<div class="col-md-4" style="margin-top: 60px">
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        Multi-items button
+      </div>
+      <div class="panel-body">
+        <p>Button with item selector.</p>
+        <p>Payment Options</p>
+        <select id="item-options">
+              <option value="Dive Package Prepayment $50.00" price="50">Dive Package Prepayment $50.00 USD</option>
+              <option value="Divemaster Program $100.00" price="100">Divemaster Program  $100.00 USD</option>
+              <option value="IDC Program $250.00" price="250">IDC Program $250.00 USD</option>
+        </select>
+        <br><br>
+
+        <p>Select Quantity</p>
+
+        <select id="quantity-options">
+              <option value="1" >1</option>
+              <option value="2" >2</option>
+              <option value="3" >3</option>
+              <option value="4" >4</option>
+              <option value="5" >5</option>
+        </select>
+
+        <br><br>
+        <div id="paypal-button-container-selector"></div>
+        <a href="./items.html" class="btn btn-primary">Select</a>
+      </div>
+  </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="https://www.paypal.com/sdk/js?currency=USD&client-id=sb"></script>
+
+<script>
+  
+  // Render the PayPal button into #paypal-button-container
+
+  paypal.Buttons({
+  
+    // Set up the transaction
+    createOrder: function(data, actions) {
+
+      var itemsOptions = document.getElementById("item-options");
+      var selectedItemDescription = itemsOptions.options[itemsOptions.selectedIndex].value;
+      var selectedItemPrice = parseInt(itemsOptions.options[itemsOptions.selectedIndex].getAttribute("price"));
+
+      var quantityOptions = document.getElementById("quantity-options");
+      var selectedQuantity = parseInt(quantityOptions.options[quantityOptions.selectedIndex].value);
+
+        return actions.order.create({
+
+              purchase_units: [{
+                    description: 'Purchase in Coral Point Diving',
+                    amount: { 
+                        currency_code: 'USD', 
+                        value: (selectedItemPrice*selectedQuantity),
+                        breakdown: {
+                            item_total: {
+                              currency_code: 'USD',
+                              value: (selectedItemPrice*selectedQuantity)
+                          }
+                       }
+                    },
+                    items: [
+                              {
+                                name: selectedItemDescription,
+                                unit_amount: {
+                                  currency_code: 'USD',
+                                  value: selectedItemPrice
+                                },
+                                quantity: selectedQuantity
+                              }
+                            ]
+                    }]
+
+        });
+
+  },
+
+  // Finalize the transaction
+  onApprove: function(data, actions) {
+
+    return actions.order.capture().then(function(details) {
+
+      alert('Thank you. Non Refundable Transaction completed by ' + details.payer.name.given_name + '!');
+    
+    });
+
+  }
+
+
+}).render('#paypal-button-container-selector');
+
+
+// Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        description: document.getElementById("desc").value,
+                        amount: {
+                            value: document.getElementById("amount").value
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Thank you. Transaction completed by ' + details.payer.name.given_name + '!');
+                });
+            }
+
+        }).render('#paypal-button-container-open');
+
+                paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        description: "A description here",
+                        amount: {
+                            value: '10'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                });
+            }
+
+
+        }).render('#paypal-button-container-fixed');
+
+
+</script>
+</body>
+</html>

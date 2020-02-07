@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SPB Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+    
+    #paypal-button-container-wrapper {
+      margin-top: 130px;
+    }
+
+    #paypal-button-container {
+      margin-top: 30px;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<div align="center">
+  <h2>Create PayPal Smart Payment Button</h2>
+</div>
+
+  <div class="col-md-5">
+    
+    <form action="/action_page.php">
+      <div class="form-group">
+        <label for="clientId">Enter Client Id:</label>
+        <input class="form-control" id="clientId" placeholder="Enter Client Id:" name="clientId">
+      </div>
+
+      <h4>Button info</h4>
+
+      <div class="form-group">
+        <label for="descriptionLabel">Description Label:</label>
+        <input class="form-control" id="descriptionLabel" placeholder="Enter the label for description" name="descriptionLabel" onkeyup="previewLabels()">
+      </div>
+      <div class="form-group col-sm-8">
+        <label for="amountLabel">Price Label:</label>
+        <input class="form-control" id="amountLabel" placeholder="Enter the label for price/amount" name="amountLabel" onkeyup="previewLabels()">
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="currency">Currency:</label>
+        <select class="form-control" id="currency" name="currency" onchange="previewLabels()">
+          <option value="USD" selected="">USD</option>
+          <option value="AUD">AUD</option>
+          <option value="BRL">BRL</option>
+          <option value="CAD">CAD</option>
+          <option value="CZK">CZK</option>
+          <option value="DKK">DKK</option>
+          <option value="EUR">EUR</option>
+          <option value="HDK">HDK</option>
+          <option value="HUF">HUF</option>
+          <option value="INR">INR</option>
+          <option value="ILS">ILS</option>
+          <option value="JPY">JPY</option>
+          <option value="MYR">MYR</option>
+          <option value="MXN">MXN</option>
+          <option value="TWD">TWD</option>
+          <option value="NZD">NZD</option>
+          <option value="NOK">NOK</option>
+          <option value="PHP">PHP</option>
+          <option value="PLN">PLN</option>
+          <option value="GBP">GBP</option>
+          <option value="RUB">RUB</option>
+          <option value="SGD">SGD</option>
+          <option value="SEK">SEK</option>
+          <option value="CHF">CHF</option>
+          <option value="THB">THB</option>
+        </select>
+      </div>
+
+      <h4>Button Style</h4>
+
+      <div class="form-group col-sm-4">
+        <label for="buttonColor">Color:</label>
+        <select class="form-control" id="buttonColor" name="buttonColor">
+          <option value="gold" selected="">Gold</option>
+          <option value="blue">Blue</option>
+          <option value="silver">Silver</option>
+          <option value="black">Black</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="buttonShape">Shape:</label>
+        <select class="form-control" id="buttonShape" name="buttonShape">
+          <option value="rect" selected="">Rectangle</option>
+          <option value="pill">Pill</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="buttonLabel">Label:</label>
+        <select class="form-control" id="buttonLabel" name="buttonLabel">
+          <option value="paypal" selected="">PayPal</option>
+          <option value="pay">Pay</option>
+          <option value="buynow">Buy Now</option>
+          <option value="checkout">Checkout</option>
+        </select>
+      </div>
+ 
+    </form>
+
+
+    <div id="paypal-button-container-wrapper">
+      <hr>
+      <h3 align="center">Preview</h3>
+      <hr>
+      <div style="text-align: center"> <span id="descriptionLabelPreView"></span>: <input type="text" id="description" value="" ></div> <br>
+      <div style="text-align: center"> <span id="amountLabelPreView"></span>: <input type="text" id="amount" value=""> <span id="currencyPreView"></span></div>  
+      <div id="paypal-button-container"></div>
+    </div>
+
+  </div>
+
+  <div class="col-md-7">
+    <div class="col-md-offset-8 col-md-4">
+        <a href="javascript:;" id="copyToClipboard" class="btn btn-primary btn-block" style="margin-bottom: 10px; display: block;">Copy to Cliboard</a>
+    </div>
+    <pre class="col-md-12" id="codePreview">
+    </pre>
+  </div>
+
+  <script type="text/javascript" src="open.js"></script>
+  <script type="text/javascript">
+  
+  function previewLabels() {
+    var x = document.getElementById("descriptionLabel").value;
+    var y = document.getElementById("amountLabel").value;
+    var z = document.getElementById("currency").value;
+    document.getElementById("descriptionLabelPreView").innerHTML = x;
+    document.getElementById("amountLabelPreView").innerHTML = y;
+    document.getElementById("currencyPreView").innerHTML = z;
+  }
+
+  </script>
+
+</body>
+</html>
